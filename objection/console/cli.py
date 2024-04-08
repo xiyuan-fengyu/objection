@@ -54,7 +54,7 @@ def get_agent() -> Agent:
 @click.option('--debugger', required=False, default=False, is_flag=True, help='Enable the Chrome debug port.')
 @click.option('--uid', required=False, default=None, help='Specify the uid to run as (Android only).')
 def cli(network: bool, host: str, port: int, api_host: str, api_port: int,
-        name: str, serial: str, debug: bool, spawn: bool, no_pause: bool, 
+        name: str, serial: str, debug: bool, spawn: bool, no_pause: bool,
         foremost: bool, debugger: bool, uid: int) -> None:
     """
         \b
@@ -262,6 +262,10 @@ def patchipa(source: str, gadget_version: str, codesign_signature: str, provisio
 @click.option('--network-security-config', '-N', is_flag=True, default=False,
               help='Include a network_security_config.xml file allowing for user added CA\'s to be trusted on '
                    'Android 7 and up. This option can not be used with the --skip-resources flag.')
+@click.option('--only-main-classes', '-M', is_flag=True, default=False,
+              help='Skip invalid magic number dex during the apktool processing.', show_default=False)
+@click.option('--skip-src', '-S', is_flag=True, default=False,
+              help='Skip src decoding as part of the apktool processing.', show_default=False)
 @click.option('--skip-resources', '-D', is_flag=True, default=False,
               help='Skip resource decoding as part of the apktool processing.', show_default=False)
 @click.option('--skip-signing', '-C', is_flag=True, default=False,

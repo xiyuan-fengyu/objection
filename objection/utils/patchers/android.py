@@ -199,7 +199,14 @@ class AndroidPatcher(BasePlatformPatcher):
         }
     }
 
-    def __init__(self, skip_cleanup: bool = False, skip_resources: bool = False, manifest: str = None):
+    def __init__(
+            self,
+            skip_cleanup: bool = False,
+            only_main_classes: bool = False,
+            skip_src: bool = False,
+            skip_resources: bool = False,
+            manifest: str = None
+    ):
         super(AndroidPatcher, self).__init__()
 
         self.apk_source = None
@@ -208,6 +215,8 @@ class AndroidPatcher(BasePlatformPatcher):
         self.apk_temp_frida_patched_aligned = self.apk_temp_directory + '.aligned.objection.apk'
         self.aapt = None
         self.skip_cleanup = skip_cleanup
+        self.only_main_classes = only_main_classes
+        self.skip_src = skip_src
         self.skip_resources = skip_resources
         self.manifest = manifest
 
@@ -403,7 +412,9 @@ class AndroidPatcher(BasePlatformPatcher):
             self.required_commands['apktool']['location'],
             'decode',
             '-f',
-            '-r' if self.skip_resources else '',
+            '--only-main-classes' if self.only_main_classes else '',
+            '--no-src' if self.skip_src else '',
+            '--no-res' if self.skip_resources else '',
             '-o',
             self.apk_temp_directory,
             self.apk_source
